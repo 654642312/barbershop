@@ -1,0 +1,151 @@
+<div>
+    <h1>Barbers</h1>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilterBarber($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+    <div class="mat-elevation-z8" *ngIf="!load">
+      <table mat-table [dataSource]="dataSourceBarber" matSort>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+    
+        <!-- profits Column -->
+        <ng-container matColumnDef="profits">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> profits </th>
+          <td mat-cell *matCellDef="let row"> {{row.profits}} </td>
+        </ng-container>
+  
+        <!-- totalContributions Column -->
+        <ng-container matColumnDef="totalContributions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> totalContributions </th>
+          <td mat-cell *matCellDef="let row"> {{row.totalContributions}} </td>
+        </ng-container>
+  
+        <!-- works Column -->
+        <ng-container matColumnDef="works">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> works </th>
+          <td mat-cell *matCellDef="let row"> {{row.works.length}} </td>
+        </ng-container>
+  
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsBarber"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsBarber;"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+
+    <div *ngIf="load">
+      <mat-spinner></mat-spinner>
+   </div>
+
+    <div [formGroup]="formBarber" style="margin-top: 20px; display:flex; text-align: center">
+
+      <mat-form-field style=" margin-right: 28px;" class="example-full-width">
+        <mat-label>Barber Name</mat-label>
+        <input formControlName="name" required matInput placeholder="Ex. Jose">
+      </mat-form-field>
+
+
+      <button (click)="newBarber()" [disabled]="!formBarber.valid" mat-raised-button color="primary">Create </button>
+    </div>
+</div>
+
+<div>
+    <h1>Clients</h1>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilterClient($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+    <div class="mat-elevation-z8" *ngIf="!load">
+      <table mat-table [dataSource]="dataSourceClient" matSort>
+    
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+    
+        <!-- visits Column -->
+        <ng-container matColumnDef="visits">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> visits </th>
+          <td mat-cell *matCellDef="let row"> {{row.visits.length}} </td>
+        </ng-container>
+  
+        <!-- spent Column -->
+        <ng-container matColumnDef="spent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> spent </th>
+          <td mat-cell *matCellDef="let row"> {{row.spent}} </td>
+        </ng-container>
+  
+        <!-- points Column -->
+        <ng-container matColumnDef="points">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> points </th>
+          <td mat-cell *matCellDef="let row"> {{row.points}} </td>
+        </ng-container>
+  
+        <!-- view Column -->
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> view </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-raised-button color="primary">View</button>   
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsClient"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsClient;"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+
+    <div *ngIf="load">
+      <mat-spinner></mat-spinner>
+   </div>
+
+    <div [formGroup]="formClient" style="margin-top: 20px; display:flex; text-align: center">
+
+      <mat-form-field style=" margin-right: 28px;" class="example-full-width">
+        <mat-label>Client Name</mat-label>
+        <input formControlName="name" required matInput placeholder="Ex. Jose" >
+      </mat-form-field>
+      <mat-form-field style=" margin-right: 28px;" class="example-full-width">
+        <mat-label>Client ID</mat-label>
+        <input type="number" formControlName="id" required matInput placeholder="Ex. 123" >
+      </mat-form-field>
+      <mat-form-field style=" margin-right: 28px;" class="example-full-width">
+        <mat-label>Member or visit</mat-label>
+        <mat-select formControlName="member">
+          <mat-option [value]="false">Visiter</mat-option>
+          <mat-option [value]="true">Member</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button (click)="newClient()" [disabled]="!formClient.valid" mat-raised-button color="primary">Create </button>
+    </div>
+</div>

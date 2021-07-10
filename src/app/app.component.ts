@@ -1,3 +1,4 @@
+import { IndexedDBService } from './shared/services/indexedDB/indexed-db.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'barbershop';
+  constructor(public indexedDBService: IndexedDBService){
+    
+  }
+  title = 'barberShopAdmin';
 }

@@ -1,0 +1,153 @@
+<mat-card class="example-card">
+   <mat-card-header>
+      <mat-card-title>Calculate price</mat-card-title>
+   </mat-card-header>
+   <mat-tab-group>
+      <mat-tab label="Visiter">
+         <mat-card-content>
+            <div *ngIf="load">
+               <mat-spinner></mat-spinner>
+            </div>
+            <form [formGroup]="formVisiter" *ngIf="!load">
+      
+               <mat-form-field *ngIf="filteredOptions" class="example-full-width" appearance="outline" style="width: 100%;">
+                  <mat-label>Name</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="Name"
+                         matInput
+                         formControlName="clientId"
+                         [matAutocomplete]="auto">
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option (click)="selectClient(option)" *ngFor="let option of filteredOptions | async" [value]="option.name">
+                      {{option.name}} [{{option.id}}]
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+      
+                <div *ngIf="user">
+                  <div>
+                     <strong>Visitas</strong>
+                     <p>{{user.visits}}</p>
+                  </div>
+                   <div>
+                      <strong>Puntos</strong>
+                      <p>{{user.points}}</p>
+                   </div>
+                   <div>
+                     <strong>Gastado</strong>
+                     <p>${{user.spent.toFixed(2)}}</p>
+                  </div>
+                </div>
+      
+               <div style="display: flex;">
+                  <div style="flex:1;">
+                     <h3>Services</h3>
+                     <div>
+                        <div *ngFor="let service of services">
+                           <mat-checkbox (change)="addService($event, service.name)">
+                              {{ service.name }}
+                           </mat-checkbox>
+                        </div>
+                     </div>
+                  </div>
+                  <div style="flex:1;">
+                     <h3>Products</h3>
+                     <div>
+                        <div style="display: flex;align-items: center;" *ngFor="let product of products">
+                           <div style="margin-right: 8px;flex:1">{{ product.name }}</div>
+                           <increment-input (newItemEvent)="addItem($event, product)" [value]="_value || 0" [step]="_step" [min]="_min" [max]="product.stock" [wrap]="_wrap"></increment-input>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+      
+               <h2>Total: ${{total}}.00</h2>
+      
+               <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Barber</mat-label>
+                  <mat-select formControlName="barber">
+                  <mat-option *ngFor="let barber of barbers" [value]="barber.id"> [{{ barber.id }}] {{ barber.name }} </mat-option>
+                  </mat-select>
+               </mat-form-field>
+      
+            </form>
+          </mat-card-content>
+          <mat-card-actions>
+            <button [disabled]="!formVisiter.valid" (click)="chargueTheVisiter()" mat-raised-button color="primary">Cobrar</button>
+          </mat-card-actions>
+      </mat-tab>
+      <mat-tab label="Member">
+         <mat-card-content>
+            <div *ngIf="load">
+               <mat-spinner></mat-spinner>
+            </div>
+            <form [formGroup]="formMember" *ngIf="!load">
+      
+               <mat-form-field *ngIf="filteredOptions" class="example-full-width" appearance="outline" style="width: 100%;">
+                  <mat-label>Client ID (Scanning bar Code)</mat-label>
+                  <input type="number"
+                         placeholder="Scanning bar code"
+                         aria-label="Name"
+                         matInput
+                         formControlName="clientId">
+                </mat-form-field>
+      
+                <div *ngIf="settings.clientSelected" style="display: flex;">
+                   <div style="flex:1">
+                      <strong>Name</strong>
+                      <p>{{settings.clientSelected.name}}</p>
+                   </div>
+                  <div style="flex:1">
+                     <strong>Visits</strong>
+                     <p>{{settings.clientSelected.visits.length}}</p>
+                  </div>
+                   <div style="flex:1">
+                      <strong>Points</strong>
+                      <p>{{settings.clientSelected.points}}</p>
+                   </div>
+                   <div style="flex:1">
+                     <strong>Spent</strong>
+                     <p>${{settings.clientSelected.spent.toFixed(2)}}</p>
+                  </div>
+                </div>
+      
+               <div style="display: flex;">
+                  <div style="flex:1;">
+                     <h3>Services</h3>
+                     <div>
+                        <div *ngFor="let service of services">
+                           <mat-checkbox (change)="addService($event, service.name)">
+                              {{ service.name }}
+                           </mat-checkbox>
+                        </div>
+                     </div>
+                  </div>
+                  <div style="flex:1;">
+                     <h3>Products</h3>
+                     <div>
+                        <div style="display: flex;align-items: center;" *ngFor="let product of products">
+                           <div style="margin-right: 8px;flex:1">{{ product.name }}</div>
+                           <increment-input (newItemEvent)="addItem($event, product)" [value]="_value || 0" [step]="_step" [min]="_min" [max]="product.stock" [wrap]="_wrap"></increment-input>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+      
+               <h2>Total: ${{total}}.00</h2>
+      
+               <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Barber</mat-label>
+                  <mat-select formControlName="barber">
+                  <mat-option *ngFor="let barber of barbers" [value]="barber.id"> [{{ barber.id }}] {{ barber.name }} </mat-option>
+                  </mat-select>
+               </mat-form-field>
+      
+            </form>
+          </mat-card-content>
+          <mat-card-actions>
+            <button [disabled]="!settings.clientSelected && !formMember.valid" (click)="chargueTheMenber()" mat-raised-button color="primary">Cobrar</button>
+          </mat-card-actions>
+      </mat-tab>
+    </mat-tab-group>
+</mat-card>

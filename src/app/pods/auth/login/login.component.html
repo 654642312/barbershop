@@ -1,0 +1,14 @@
+<mat-card class="login-from-container">
+    <form  [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+        <h2>Login</h2>
+        <mat-form-field appearance="fill">
+            <mat-label>email</mat-label>
+            <input matInput formControlName="email" type="text">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>password</mat-label>
+            <input matInput formControlName="password" type="password">
+        </mat-form-field>
+        <button class="full-width" type="submit"  [disabled]="loginForm.invalid" >login</button>
+    </form>
+</mat-card>
